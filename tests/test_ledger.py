@@ -75,3 +75,34 @@ def test_by_category_with_empty_ledger():
     ledger = Ledger()
     food_entries = list(ledger.by_category("Food"))
     assert len(food_entries) == 0
+
+
+def test_net_balance_with_positive_and_negative_entries():
+    """Test net balance calculation with both positive and negative entries."""
+    ledger = Ledger()
+    ledger.add(amount=100.0, category="Income")
+    ledger.add(amount=-50.0, category="Expense")
+    ledger.add(amount=200.0, category="Bonus")
+    assert ledger.net_balance() == 250.0
+
+
+def test_net_balance_with_only_positive_entries():
+    """Test net balance calculation with only positive entries."""
+    ledger = Ledger()
+    ledger.add(amount=100.0, category="Income")
+    ledger.add(amount=200.0, category="Bonus")
+    assert ledger.net_balance() == 300.0
+
+
+def test_net_balance_with_only_negative_entries():
+    """Test net balance calculation with only negative entries."""
+    ledger = Ledger()
+    ledger.add(amount=-50.0, category="Expense")
+    ledger.add(amount=-100.0, category="Loss")
+    assert ledger.net_balance() == -150.0
+
+
+def test_net_balance_with_empty_ledger():
+    """Test net balance calculation with an empty ledger."""
+    ledger = Ledger()
+    assert ledger.net_balance() == 0.0
