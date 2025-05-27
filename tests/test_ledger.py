@@ -46,3 +46,32 @@ def test_add_zero_amount():
     ledger = Ledger()
     with pytest.raises(ValueError, match="Amount cannot be zero."):
         ledger.add(amount=0.0, category="Invalid")
+
+
+def test_by_category_with_matching_entries():
+    """Test retrieving entries that match a specific category."""
+    ledger = Ledger()
+    ledger.add(amount=100.0, category="Food")
+    ledger.add(amount=-50.0, category="Food")
+    ledger.add(amount=200.0, category="Transport")
+
+    food_entries = list(ledger.by_category("Food"))
+    assert len(food_entries) == 2
+    assert all(entry.category == "Food" for entry in food_entries)
+
+
+def test_by_category_with_no_matching_entries():
+    """Test retrieving entries when no entries match the category."""
+    ledger = Ledger()
+    ledger.add(amount=100.0, category="Transport")
+    ledger.add(amount=-50.0, category="Utilities")
+
+    food_entries = list(ledger.by_category("Food"))
+    assert len(food_entries) == 0
+
+
+def test_by_category_with_empty_ledger():
+    """Test retrieving entries from an empty ledger."""
+    ledger = Ledger()
+    food_entries = list(ledger.by_category("Food"))
+    assert len(food_entries) == 0
