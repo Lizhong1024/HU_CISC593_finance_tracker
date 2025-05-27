@@ -11,3 +11,7 @@ Final project for ***CISC 593-90- O-2025/Late Spring - Software Verification & V
    `pip install -r requirements.txt`
 4. Run unit tests<br>
     `pytest tests`
+
+## How to run unit tests and generate HTML reports?
+Example for ledger.py module:<br>
+`pytest tests/test_ledger.py --html=reports/ledger.html --self-contained-html`
